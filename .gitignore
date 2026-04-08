@@ -1,7 +1,8 @@
 node_modules/
 /build/
 /out/
-/.next/
+.next/
 /dist/
 yarn.lock
 .env
+dist/

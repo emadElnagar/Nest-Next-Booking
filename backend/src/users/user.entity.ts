@@ -20,6 +20,6 @@ export class User {
   @Column()
   image: string;
 
-  @Column()
+  @Column({ default: 'user' })
   role: string;
 }
