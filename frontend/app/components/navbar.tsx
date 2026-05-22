@@ -1,10 +1,10 @@
-// components/Navbar.tsx
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, User, Search } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -57,9 +57,39 @@ export default function Navbar() {
 
         {/* Right Side */}
         <div className="hidden items-center gap-3 md:flex">
-          <button className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-yellow-400 hover:text-yellow-400 cursor-pointer">
-            <Search size={18} />
-          </button>
+          <div className="relative">
+            {/* Search Button */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-yellow-400 hover:text-yellow-400 cursor-pointer"
+            >
+              {isOpen ? <X size={18} /> : <Search size={18} />}
+            </button>
+
+            {/* Expanding Search */}
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: 320, opacity: 1 }}
+                  exit={{ width: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute right-14 top-1/2 overflow-hidden -translate-y-1/2"
+                >
+                  <div className="flex h-12 items-center rounded-full border border-yellow-500/30 bg-black/80 px-5 backdrop-blur-xl">
+                    <Search size={18} className="mr-3 text-yellow-400" />
+
+                    <input
+                      autoFocus
+                      type="text"
+                      placeholder="Search rooms..."
+                      className="w-full bg-transparent text-sm text-white placeholder:text-gray-400 focus:outline-none"
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <button className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-yellow-400 hover:text-yellow-400 cursor-pointer">
             <User size={18} />
