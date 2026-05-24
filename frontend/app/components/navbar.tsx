@@ -2,8 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, X, User, Search } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import {
+  Menu,
+  X,
+  User,
+  Search,
+  ChevronDown,
+  Settings,
+  Heart,
+  LogOut,
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navLinks = [
@@ -16,6 +25,27 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setUserOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-xl">
@@ -91,9 +121,88 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
-          <button className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-yellow-400 hover:text-yellow-400 cursor-pointer">
-            <User size={18} />
-          </button>
+          {/* USER DROPDOWN */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={() => setUserOpen(!userOpen)}
+              className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2 py-2 text-gray-200 transition hover:border-yellow-400 hover:text-yellow-400 cursor-pointer"
+            >
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-yellow-500 text-black">
+                <User size={16} />
+              </div>
+
+              <span className="px-1 text-sm font-medium">Emad</span>
+
+              <ChevronDown
+                size={16}
+                className={`mr-1 transition ${userOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            <AnimatePresence>
+              {userOpen && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 10,
+                    scale: 0.96,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: 10,
+                    scale: 0.96,
+                  }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute right-0 mt-4 w-72 overflow-hidden rounded-3xl border border-white/10 bg-black/80 shadow-2xl backdrop-blur-2xl"
+                >
+                  {/* TOP */}
+                  <div className="border-b border-white/10 p-5">
+                    <p className="text-lg font-semibold text-white">
+                      Emad Elnagar
+                    </p>
+
+                    <p className="mt-1 text-sm text-gray-400">
+                      emad@example.com
+                    </p>
+                  </div>
+
+                  {/* MENU */}
+                  <div className="p-3">
+                    <DropdownItem
+                      icon={<User size={18} />}
+                      label="My Profile"
+                      href="/profile"
+                    />
+
+                    <DropdownItem
+                      icon={<Heart size={18} />}
+                      label="Saved Rooms"
+                      href="/saved"
+                    />
+
+                    <DropdownItem
+                      icon={<Settings size={18} />}
+                      label="Settings"
+                      href="/settings"
+                    />
+
+                    <div className="my-3 border-t border-white/10" />
+
+                    <button className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-red-400 transition hover:bg-red-500/10 cursor-pointer">
+                      <LogOut size={18} />
+
+                      <span className="text-sm font-medium">Logout</span>
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <Link
             href="/booking"
@@ -137,5 +246,26 @@ export default function Navbar() {
         </div>
       )}
     </header>
+  );
+}
+
+function DropdownItem({
+  icon,
+  label,
+  href,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center gap-3 rounded-2xl px-4 py-3 text-gray-200 transition hover:bg-white/5 hover:text-yellow-400"
+    >
+      {icon}
+
+      <span className="text-sm font-medium">{label}</span>
+    </Link>
   );
 }
