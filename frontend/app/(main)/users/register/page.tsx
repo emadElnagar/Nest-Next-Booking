@@ -2,11 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#f8f6f2]">
@@ -28,22 +30,21 @@ export default function LoginPage() {
           <div className="hidden flex-col justify-between bg-gradient-to-br from-yellow-100 to-white p-10 lg:flex">
             <div>
               <h1 className="text-5xl font-light leading-tight text-gray-900">
-                Welcome Back to
+                Join
                 <span className="block font-semibold text-yellow-600">
                   Royal Crescent
                 </span>
               </h1>
 
               <p className="mt-6 max-w-md text-lg leading-relaxed text-gray-600">
-                Access your luxury stays, premium reservations, and exclusive
-                offers.
+                Create your luxury account and unlock exclusive stays, premium
+                services, and unforgettable experiences.
               </p>
             </div>
 
             <div className="rounded-3xl border border-black/5 bg-white/70 p-6 shadow-sm backdrop-blur-xl">
               <p className="text-sm leading-relaxed text-gray-600">
-                “Luxury is not about excess — it&apos;s about timeless comfort
-                and unforgettable experiences.”
+                “Where timeless elegance meets modern luxury in every detail.”
               </p>
             </div>
           </div>
@@ -54,16 +55,31 @@ export default function LoginPage() {
               {/* TOP */}
               <div className="mb-10 text-center">
                 <h2 className="text-4xl font-semibold text-gray-900">
-                  Sign In
+                  Create Account
                 </h2>
 
-                <p className="mt-3 text-gray-500">
-                  Continue your luxury experience
-                </p>
+                <p className="mt-3 text-gray-500">Begin your luxury journey</p>
               </div>
 
               {/* FORM */}
               <form className="space-y-5">
+                {/* FULL NAME */}
+                <div>
+                  <label className="mb-2 block text-sm text-gray-700">
+                    Full Name
+                  </label>
+
+                  <div className="flex h-14 items-center rounded-2xl border border-gray-200 bg-gray-50 px-4 transition focus-within:border-yellow-500 focus-within:bg-white">
+                    <User size={18} className="mr-3 text-yellow-600" />
+
+                    <input
+                      type="text"
+                      placeholder="Enter your full name"
+                      className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
                 {/* EMAIL */}
                 <div>
                   <label className="mb-2 block text-sm text-gray-700">
@@ -92,7 +108,7 @@ export default function LoginPage() {
 
                     <input
                       type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
+                      placeholder="Create password"
                       className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
                     />
 
@@ -106,30 +122,68 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                {/* OPTIONS */}
-                <div className="flex items-center justify-between text-sm">
-                  <label className="flex items-center gap-2 text-gray-600">
-                    <input
-                      type="checkbox"
-                      className="rounded border-gray-300"
-                    />
-                    Remember me
+                {/* CONFIRM PASSWORD */}
+                <div>
+                  <label className="mb-2 block text-sm text-gray-700">
+                    Confirm Password
                   </label>
 
-                  <Link
-                    href="/users/forgot-password"
-                    className="text-yellow-600 transition hover:text-yellow-500"
-                  >
-                    Forgot password?
-                  </Link>
+                  <div className="flex h-14 items-center rounded-2xl border border-gray-200 bg-gray-50 px-4 transition focus-within:border-yellow-500 focus-within:bg-white">
+                    <Lock size={18} className="mr-3 text-yellow-600" />
+
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="Confirm password"
+                      className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      className="text-gray-400 transition hover:text-yellow-600"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff size={18} />
+                      ) : (
+                        <Eye size={18} />
+                      )}
+                    </button>
+                  </div>
                 </div>
+
+                {/* TERMS */}
+                <label className="flex items-start gap-3 text-sm text-gray-600">
+                  <input
+                    type="checkbox"
+                    className="mt-1 rounded border-gray-300"
+                  />
+
+                  <span>
+                    I agree to the{" "}
+                    <Link
+                      href="/terms"
+                      className="text-yellow-600 hover:text-yellow-500"
+                    >
+                      Terms & Conditions
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href="/privacy"
+                      className="text-yellow-600 hover:text-yellow-500"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </span>
+                </label>
 
                 {/* BUTTON */}
                 <button
                   type="submit"
                   className="h-14 w-full rounded-2xl bg-yellow-500 text-sm font-semibold text-black transition hover:bg-yellow-400"
                 >
-                  Sign In
+                  Create Account
                 </button>
               </form>
 
@@ -153,14 +207,14 @@ export default function LoginPage() {
                 </button>
               </div>
 
-              {/* REGISTER */}
+              {/* LOGIN */}
               <p className="mt-8 text-center text-sm text-gray-500">
-                Don&apos;t have an account?{" "}
+                Already have an account?{" "}
                 <Link
-                  href="/users/register"
+                  href="/users/login"
                   className="font-medium text-yellow-600 hover:text-yellow-500"
                 >
-                  Create Account
+                  Sign In
                 </Link>
               </p>
             </div>
