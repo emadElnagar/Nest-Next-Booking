@@ -10,7 +10,13 @@ export class UsersService {
     private userRepo: Repository<User>,
   ) {}
 
+  // Create a new user
   create(user: Partial<User>) {
     return this.userRepo.save(user);
+  }
+
+  // Find a single user
+  findUser(id: string) {
+    return this.userRepo.findOne({ where: { id } });
   }
 }
