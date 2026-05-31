@@ -24,4 +24,14 @@ export class UsersService {
   findAll() {
     return this.userRepo.find();
   }
+
+  // Update a user
+  async update(id: string, attrs: Partial<User>) {
+    const user = await this.findUser(id);
+    if (!user) {
+      return 'User not found';
+    }
+    Object.assign(user, attrs);
+    return this.userRepo.save(user);
+  }
 }
