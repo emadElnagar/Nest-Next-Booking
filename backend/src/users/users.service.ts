@@ -19,4 +19,9 @@ export class UsersService {
   findUser(id: string) {
     return this.userRepo.findOne({ where: { id } });
   }
+
+  // Find all users
+  findAll() {
+    return this.userRepo.find();
+  }
 }
