@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
@@ -11,8 +11,8 @@ export class UsersService {
   ) {}
 
   // Create a new user
-  create(user: Partial<User>) {
-    return this.userRepo.save(user);
+  create(data: Partial<User>) {
+    return this.userRepo.save(data);
   }
 
   // Find a single user
@@ -26,12 +26,21 @@ export class UsersService {
   }
 
   // Update a user
-  async update(id: string, attrs: Partial<User>) {
+  async update(id: string, data: Partial<User>) {
     const user = await this.findUser(id);
     if (!user) {
-      return 'User not found';
+      throw new BadRequestException('User not found');
     }
-    Object.assign(user, attrs);
+    Object.assign(user, data);
     return this.userRepo.save(user);
+  }
+
+  // Delete user
+  async delete(id: string) {
+    const user = await this.findUser(id);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    return this.userRepo.remove(user);
   }
 }
