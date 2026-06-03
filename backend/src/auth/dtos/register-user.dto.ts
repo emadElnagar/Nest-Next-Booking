@@ -1,16 +1,23 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsEmail, IsString, MinLength } from 'class-validator';
+import { IsStrongPassword } from '../decorators/is-strong-password.decorator';
 
-export class userRegisterDto {
+export class RegisterDto {
+  @Transform(({ value }) => value?.trim())
   @IsString()
-  @IsNotEmpty()
+  @MinLength(3)
   firstName: string;
+
+  @Transform(({ value }) => value?.trim())
   @IsString()
-  @IsNotEmpty()
+  @MinLength(3)
   lastName: string;
+
+  @Transform(({ value }) => value?.trim())
   @IsEmail()
-  @IsNotEmpty()
   email: string;
+
   @IsString()
-  @IsNotEmpty()
+  @IsStrongPassword()
   password: string;
 }
