@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
 import { CreateUser } from './dtos/new-user.dto';
 import { UsersService } from './users.service';
 import { UserRole } from './enums/user.enums';
+import { updateUserDto } from './dtos/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -26,5 +27,15 @@ export class UsersController {
   @Get(':id')
   findOne(id: string) {
     return this.usersService.findUser(id);
+  }
+
+  // Update a user
+  @Patch(':id')
+  update(id: string, @Body() dto: Partial<updateUserDto>) {
+    const { role, ...rest } = dto;
+    return this.usersService.update(id, {
+      ...rest,
+      ...(role !== undefined ? { role: role as UserRole } : {}),
+    });
   }
 }

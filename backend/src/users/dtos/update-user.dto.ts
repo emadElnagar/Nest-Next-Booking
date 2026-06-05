@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CraeteUser } from './new-user.dto';
+import { CreateUser } from './new-user.dto';
 
-export class updateUserDto extends PartialType(CraeteUser) {
+export class updateUserDto extends PartialType(CreateUser) {
   image?: string;
 }
