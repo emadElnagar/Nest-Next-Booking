@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateUser } from './dtos/new-user.dto';
 import { UsersService } from './users.service';
 import { UserRole } from './enums/user.enums';
@@ -13,5 +13,10 @@ export class UsersController {
       ...dto,
       role: dto.role as UserRole,
     });
+  }
+
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
   }
 }
