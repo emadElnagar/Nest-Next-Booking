@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
 import { CreateUser } from './dtos/new-user.dto';
 import { UsersService } from './users.service';
 import { UserRole } from './enums/user.enums';
@@ -37,5 +37,11 @@ export class UsersController {
       ...rest,
       ...(role !== undefined ? { role: role as UserRole } : {}),
     });
+  }
+
+  // Delete user
+  @Delete(':id')
+  remove(id: string) {
+    return this.usersService.delete(id);
   }
 }
