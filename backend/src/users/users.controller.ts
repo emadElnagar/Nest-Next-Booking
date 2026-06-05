@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreateUser } from './dtos/new-user.dto';
 import { UsersService } from './users.service';
-import { UserRole } from './enums/user-role.enum';
+import { UserRole } from './enums/user.enums';
 
 @Controller('users')
 export class UsersController {
