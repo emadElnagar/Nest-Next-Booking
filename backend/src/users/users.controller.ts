@@ -7,6 +7,7 @@ import { UserRole } from './enums/user.enums';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // Create a new user
   @Post()
   create(@Body() dto: CreateUser) {
     return this.usersService.create({
@@ -15,8 +16,15 @@ export class UsersController {
     });
   }
 
+  // Find all users
   @Get()
   findAll() {
     return this.usersService.findAll();
+  }
+
+  // Find a single user
+  @Get(':id')
+  findOne(id: string) {
+    return this.usersService.findUser(id);
   }
 }
