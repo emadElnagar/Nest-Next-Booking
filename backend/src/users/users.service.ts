@@ -15,9 +15,14 @@ export class UsersService {
     return this.userRepo.save(data);
   }
 
-  // Find a single user
+  // Find a single user (By id)
   findUser(id: string) {
     return this.userRepo.findOne({ where: { id } });
+  }
+
+  // Find a single user (By email)
+  findByEmail(email: string) {
+    return this.userRepo.findOne({ where: { email } });
   }
 
   // Find all users
