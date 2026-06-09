@@ -44,6 +44,13 @@ export class AuthService {
     return this.generateTokens(user.id, user.email);
   }
 
+  // User logout
+  async logout(userId: string) {
+    await this.usersService.update(userId.toString(), {
+      refreshToken: null,
+    });
+  }
+
   // Generate JWT token
   private async generateTokens(userId: string, email: string) {
     const payload = {
