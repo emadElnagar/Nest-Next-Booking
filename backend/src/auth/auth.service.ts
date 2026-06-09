@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dtos/register-user.dto';
@@ -25,6 +29,17 @@ export class AuthService {
       email: data.email,
       password: hashedPassword,
     });
+
+    return this.generateTokens(user.id, user.email);
+  }
+
+  // User login
+  async login(email: string, password: string) {
+    const user = await this.usersService.findByEmail(email);
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new UnauthorizedException('Email or password is incorrect');
+    }
 
     return this.generateTokens(user.id, user.email);
   }
