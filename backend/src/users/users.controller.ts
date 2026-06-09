@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateUser } from './dtos/new-user.dto';
 import { UsersService } from './users.service';
 import { UserRole } from './enums/user.enums';
@@ -23,15 +31,21 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  // Find a single user
+  // Find a single user (by id)
   @Get(':id')
-  findOne(id: string) {
+  findOne(@Param('id') id: string) {
     return this.usersService.findUser(id);
+  }
+
+  // Find user by email
+  @Get('email/:email')
+  findByEmail(@Param('email') email: string) {
+    return this.usersService.findByEmail(email);
   }
 
   // Update a user
   @Patch(':id')
-  update(id: string, @Body() dto: Partial<updateUserDto>) {
+  update(@Param('id') id: string, @Body() dto: Partial<updateUserDto>) {
     const { role, ...rest } = dto;
     return this.usersService.update(id, {
       ...rest,
@@ -41,7 +55,7 @@ export class UsersController {
 
   // Delete user
   @Delete(':id')
-  remove(id: string) {
+  remove(@Param('id') id: string) {
     return this.usersService.delete(id);
   }
 }
