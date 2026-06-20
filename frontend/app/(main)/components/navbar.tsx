@@ -258,14 +258,14 @@ export default function Navbar() {
                   {/* ACTIONS */}
                   <div className="space-y-3 p-4">
                     <Link
-                      href="/login"
+                      href="/users/login"
                       className="flex items-center justify-center rounded-2xl bg-yellow-500 px-5 py-3 text-sm font-semibold text-black transition hover:bg-yellow-400"
                     >
                       Sign In
                     </Link>
 
                     <Link
-                      href="/register"
+                      href="/users/register"
                       className="flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-white transition hover:border-yellow-400 hover:text-yellow-400"
                     >
                       Create Account
