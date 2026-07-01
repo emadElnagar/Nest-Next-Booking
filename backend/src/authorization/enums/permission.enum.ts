@@ -20,9 +20,8 @@ export enum Permissions {
   UPDATE_BOOKING = 'update_booking',
   DELETE_BOOKING = 'delete_booking',
   VIEW_BOOKING = 'view_booking',
-  // Comments
-  CREATE_COMMENT = 'create_comment',
-  UPDATE_COMMENT = 'update_comment',
-  DELETE_COMMENT = 'delete_comment',
-  VIEW_COMMENT = 'view_comment',
+  // Reviews
+  CREATE_REVIEW = 'create_review',
+  UPDATE_REVIEW = 'update_review',
+  DELETE_REVIEW = 'delete_review',
 }
