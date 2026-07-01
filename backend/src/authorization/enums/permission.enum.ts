@@ -1,4 +1,4 @@
-export enum Permissions {
+export enum Permission {
   // Rooms
   CREATE_ROOM = 'create_room',
   UPDATE_ROOM = 'update_room',
