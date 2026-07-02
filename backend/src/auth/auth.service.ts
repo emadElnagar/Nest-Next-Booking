@@ -44,6 +44,15 @@ export class AuthService {
     return this.generateTokens(user.id, user.email);
   }
 
+  // Get me (current user)
+  async getMe(userId: string) {
+    const user = await this.usersService.findUser(userId);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+    return user;
+  }
+
   // User logout
   async logout(userId: string) {
     await this.usersService.update(userId.toString(), {
