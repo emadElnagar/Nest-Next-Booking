@@ -24,8 +24,8 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  image: string;
+  @Column({ nullable: true })
+  image: string | null;
 
   @Column({
     type: 'enum',

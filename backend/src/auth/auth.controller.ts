@@ -11,10 +11,11 @@ import { Request, Response } from 'express';
 import { RegisterDto } from './dtos/register-user.dto';
 import { RefreshTokenGuard } from './guards/refresh-token.guard';
 import { AccessTokenGuard } from './guards/access-token.guard';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  authService: any;
+  constructor(private readonly authService: AuthService) {}
   // User register
   @Post('register')
   async register(@Body() data: RegisterDto) {

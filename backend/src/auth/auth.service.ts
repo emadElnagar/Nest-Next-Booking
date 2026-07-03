@@ -6,7 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dtos/register-user.dto';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +26,8 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const user = await this.usersService.create({
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       password: hashedPassword,
     });
@@ -53,6 +55,26 @@ export class AuthService {
     return user;
   }
 
+  // Refresh token
+  async refresh(userId: string, refreshToken: string) {
+    const user = await this.usersService.findUser(userId);
+
+    if (!user || !user.refreshToken) {
+      throw new UnauthorizedException('Access denied');
+    }
+
+    const refreshMatches = await bcrypt.compare(
+      refreshToken,
+      user.refreshToken,
+    );
+
+    if (!refreshMatches) {
+      throw new UnauthorizedException('Access denied');
+    }
+
+    return this.generateTokens(user.id, user.email);
+  }
+
   // User logout
   async logout(userId: string) {
     await this.usersService.update(userId.toString(), {
@@ -68,12 +90,12 @@ export class AuthService {
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {
-      secret: 'ACCESS_SECRET',
+      secret: process.env.ACCESS_SECRET,
       expiresIn: '15m',
     });
 
     const refreshToken = await this.jwtService.signAsync(payload, {
-      secret: 'REFRESH_SECRET',
+      secret: process.env.REFRESH_SECRET,
       expiresIn: '7d',
     });
 
