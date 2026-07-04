@@ -24,8 +24,25 @@ export class AuthController {
 
   // User login
   @Post('login')
-  async login(@Body() data: { email: string; password: string }) {
-    return this.authService.login(data.email, data.password);
+  async login(
+    @Body() data: { email: string; password: string },
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { accessToken, refreshToken } = await this.authService.login(
+      data.email,
+      data.password,
+    );
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return {
+      accessToken,
+    };
   }
 
   // Get me (current user)
