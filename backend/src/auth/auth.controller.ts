@@ -18,8 +18,20 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   // User register
   @Post('register')
-  async register(@Body() data: RegisterDto) {
-    return this.authService.signup(data);
+  async register(
+    @Body() data: RegisterDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { accessToken, refreshToken } = await this.authService.signup(data);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return { accessToken };
   }
 
   // User login
