@@ -34,6 +34,14 @@ export const usersApi = api.injectEndpoints({
         body: user,
       }),
     }),
+
+    // Delete user
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
