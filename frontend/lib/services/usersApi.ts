@@ -2,6 +2,15 @@ import { api } from "./api";
 
 export const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    // Create a new user
+    createUser: builder.mutation({
+      query: (user) => ({
+        url: "/users",
+        method: "POST",
+        body: user,
+      }),
+    }),
+
     // Get all users
     getUsers: builder.query({
       query: () => "/users",
