@@ -25,6 +25,15 @@ export const usersApi = api.injectEndpoints({
     getUserByEmail: builder.query({
       query: (email) => `/users/email/${email}`,
     }),
+
+    // Update a user
+    updateUser: builder.mutation({
+      query: ({ id, ...user }) => ({
+        url: `/users/${id}`,
+        method: "PATCH",
+        body: user,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
