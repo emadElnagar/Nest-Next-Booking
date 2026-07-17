@@ -9,6 +9,24 @@ export interface User {
   updatedAt: Date;
 }
 
+export interface CreateUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  image?: string | null;
+  role?: string;
+}
+
+export interface UpdateUser {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
+  image?: string | null;
+  role?: string;
+}
+
 export interface UserLogin {
   email: string;
   password: string;
