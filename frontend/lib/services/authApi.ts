@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { UserRegister } from "../../types/user";
+import { User, UserLogin, UserRegister } from "@/types/user";
 
 export const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -14,11 +14,16 @@ export const usersApi = api.injectEndpoints({
 
     // User login
     loginUser: builder.mutation({
-      query: (credentials: { email: string; password: string }) => ({
+      query: (user: UserLogin) => ({
         url: "/auth/login",
         method: "POST",
-        body: credentials,
+        body: user,
       }),
+    }),
+
+    // Get current user
+    getCurrentUser: builder.query<User, void>({
+      query: () => "/auth/me",
     }),
   }),
 });
