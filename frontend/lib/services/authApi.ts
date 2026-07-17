@@ -25,5 +25,21 @@ export const usersApi = api.injectEndpoints({
     getCurrentUser: builder.query<User, void>({
       query: () => "/auth/me",
     }),
+
+    // Refresh token
+    refreshToken: builder.mutation({
+      query: () => ({
+        url: "/auth/refresh",
+        method: "POST",
+      }),
+    }),
+
+    // Logout user
+    logoutUser: builder.mutation({
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+      }),
+    }),
   }),
 });
