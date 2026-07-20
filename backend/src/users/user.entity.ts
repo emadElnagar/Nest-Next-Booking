@@ -4,8 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { UserRole } from './enums/user.enums';
+import { Booking } from 'src/bookings/bookings.entity';
 
 @Entity()
 export class User {
@@ -33,6 +35,9 @@ export class User {
     default: UserRole.USER,
   })
   role: UserRole;
+
+  @OneToMany(() => Booking, (booking) => booking.user)
+  bookings: Booking[];
 
   @CreateDateColumn()
   createdAt: Date;

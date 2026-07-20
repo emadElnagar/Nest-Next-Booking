@@ -1,9 +1,11 @@
+import { Booking } from 'src/bookings/bookings.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('rooms')
@@ -40,6 +42,9 @@ export class Room {
 
   @Column({ default: true })
   isAvailable: boolean;
+
+  @OneToMany(() => Booking, (booking) => booking.room)
+  bookings: Booking[];
 
   @CreateDateColumn()
   createdAt: Date;
