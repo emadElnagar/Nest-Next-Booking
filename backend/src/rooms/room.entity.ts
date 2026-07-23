@@ -13,9 +13,6 @@ export class Room {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
-
   @Column({ unique: true })
   roomNumber: string;
 
