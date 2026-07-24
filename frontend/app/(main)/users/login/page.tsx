@@ -4,9 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useState } from "react";
+import { useLoginUserMutation } from "@/lib/services/authApi";
+import { useForm } from "react-hook-form";
+import { UserLogin } from "@/types/user";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [userLogin, { isLoading, isError, error }] = useLoginUserMutation();
+  const { register, handleSubmit, reset } = useForm<UserLogin>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  // Handle form submission
+  const onSubmit = async (data: UserLogin) => {
+    await userLogin(data).unwrap();
+    reset();
+  };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#f8f6f2]">
@@ -63,7 +78,7 @@ export default function LoginPage() {
               </div>
 
               {/* FORM */}
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
                 {/* EMAIL */}
                 <div>
                   <label className="mb-2 block text-sm text-gray-700">
@@ -77,6 +92,9 @@ export default function LoginPage() {
                       type="email"
                       placeholder="Enter your email"
                       className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                      {...register("email", {
+                        required: "Please enter your email",
+                      })}
                     />
                   </div>
                 </div>
@@ -94,6 +112,9 @@ export default function LoginPage() {
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                      {...register("password", {
+                        required: "Please enter your password",
+                      })}
                     />
 
                     <button
@@ -127,9 +148,10 @@ export default function LoginPage() {
                 {/* BUTTON */}
                 <button
                   type="submit"
-                  className="h-14 w-full rounded-2xl bg-yellow-500 text-sm font-semibold text-black transition hover:bg-yellow-400"
+                  disabled={isLoading}
+                  className="h-14 w-full rounded-2xl bg-yellow-500 text-sm font-semibold text-black transition hover:bg-yellow-400 cursor-pointer disabled:cursor-not-allowed disabled:bg-yellow-300"
                 >
-                  Sign In
+                  {isLoading ? "Signing In..." : "Sign In"}
                 </button>
               </form>
 

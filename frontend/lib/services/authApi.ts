@@ -43,3 +43,11 @@ export const usersApi = api.injectEndpoints({
     }),
   }),
 });
+
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useGetCurrentUserQuery,
+  useRefreshTokenMutation,
+  useLogoutUserMutation,
+} = usersApi;
