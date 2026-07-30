@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useLoginUserMutation } from "@/lib/services/authApi";
 import { useForm } from "react-hook-form";
 import { UserLogin } from "@/types/user";
+import ErrorAlert from "../../components/ErrorAlert";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +39,15 @@ export default function LoginPage() {
 
       {/* CONTENT */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-10">
+        {/* Error Alert */}
+        {isError && (
+          <ErrorAlert
+            message={
+              (error as { data?: { message?: string } }).data?.message ||
+              "An error occurred."
+            }
+          />
+        )}
         <div className="grid w-full max-w-6xl overflow-hidden rounded-[36px] border border-black/5 bg-white shadow-2xl lg:grid-cols-2">
           {/* LEFT SIDE */}
           <div className="hidden flex-col justify-between bg-gradient-to-br from-yellow-100 to-white p-10 lg:flex">
