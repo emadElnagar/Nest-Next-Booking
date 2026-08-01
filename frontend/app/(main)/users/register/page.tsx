@@ -63,20 +63,40 @@ export default function RegisterPage() {
 
               {/* FORM */}
               <form className="space-y-5">
-                {/* FULL NAME */}
-                <div>
-                  <label className="mb-2 block text-sm text-gray-700">
-                    Full Name
-                  </label>
+                {/* FIRST & LAST NAME */}
+                <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                  {/* FIRST NAME */}
+                  <div>
+                    <label className="mb-2 block text-sm text-gray-700">
+                      First Name
+                    </label>
 
-                  <div className="flex h-14 items-center rounded-2xl border border-gray-200 bg-gray-50 px-4 transition focus-within:border-yellow-500 focus-within:bg-white">
-                    <User size={18} className="mr-3 text-yellow-600" />
+                    <div className="flex h-14 items-center rounded-2xl border border-gray-200 bg-gray-50 px-4 transition focus-within:border-yellow-500 focus-within:bg-white">
+                      <User size={18} className="mr-3 text-yellow-600" />
 
-                    <input
-                      type="text"
-                      placeholder="Enter your full name"
-                      className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
-                    />
+                      <input
+                        type="text"
+                        placeholder="Enter your first name"
+                        className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* LAST NAME */}
+                  <div>
+                    <label className="mb-2 block text-sm text-gray-700">
+                      Last Name
+                    </label>
+
+                    <div className="flex h-14 items-center rounded-2xl border border-gray-200 bg-gray-50 px-4 transition focus-within:border-yellow-500 focus-within:bg-white">
+                      <User size={18} className="mr-3 text-yellow-600" />
+
+                      <input
+                        type="text"
+                        placeholder="Enter your last name"
+                        className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
+                      />
+                    </div>
                   </div>
                 </div>
 
