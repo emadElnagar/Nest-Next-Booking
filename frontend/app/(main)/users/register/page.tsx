@@ -4,11 +4,35 @@ import Image from "next/image";
 import Link from "next/link";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { UserRegister } from "@/types/user";
+import { useRegisterUserMutation } from "@/lib/services/authApi";
+import ErrorAlert from "../../components/ErrorAlert";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [registerUser, { isLoading, isError, error }] =
+    useRegisterUserMutation();
+
+  const { register, handleSubmit, reset } = useForm<UserRegister>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = async (data: UserRegister) => {
+    if (data.password !== data.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    await registerUser(data).unwrap();
+    reset();
+  };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#f8f6f2]">
@@ -25,6 +49,15 @@ export default function RegisterPage() {
 
       {/* CONTENT */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-10">
+        {/* Error Alert */}
+        {isError && (
+          <ErrorAlert
+            message={
+              (error as { data?: { message?: string } }).data?.message ||
+              "An error occurred."
+            }
+          />
+        )}
         <div className="grid w-full max-w-6xl overflow-hidden rounded-[36px] border border-black/5 bg-white shadow-2xl lg:grid-cols-2">
           {/* LEFT SIDE */}
           <div className="hidden flex-col justify-between bg-gradient-to-br from-yellow-100 to-white p-10 lg:flex">
@@ -62,7 +95,7 @@ export default function RegisterPage() {
               </div>
 
               {/* FORM */}
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
                 {/* FIRST & LAST NAME */}
                 <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
                   {/* FIRST NAME */}
@@ -77,6 +110,9 @@ export default function RegisterPage() {
                       <input
                         type="text"
                         placeholder="Enter your first name"
+                        {...register("firstName", {
+                          required: "First name is required",
+                        })}
                         className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
                       />
                     </div>
@@ -94,6 +130,9 @@ export default function RegisterPage() {
                       <input
                         type="text"
                         placeholder="Enter your last name"
+                        {...register("lastName", {
+                          required: "Last name is required",
+                        })}
                         className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
                       />
                     </div>
@@ -112,6 +151,7 @@ export default function RegisterPage() {
                     <input
                       type="email"
                       placeholder="Enter your email"
+                      {...register("email", { required: "Email is required" })}
                       className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
                     />
                   </div>
@@ -129,6 +169,9 @@ export default function RegisterPage() {
                     <input
                       type={showPassword ? "text" : "password"}
                       placeholder="Create password"
+                      {...register("password", {
+                        required: "Password is required",
+                      })}
                       className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
                     />
 
@@ -154,6 +197,9 @@ export default function RegisterPage() {
                     <input
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm password"
+                      {...register("confirmPassword", {
+                        required: "Please confirm your password",
+                      })}
                       className="w-full bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none"
                     />
 
@@ -176,6 +222,7 @@ export default function RegisterPage() {
                 {/* TERMS */}
                 <label className="flex items-start gap-3 text-sm text-gray-600">
                   <input
+                    required
                     type="checkbox"
                     className="mt-1 rounded border-gray-300"
                   />
@@ -201,9 +248,9 @@ export default function RegisterPage() {
                 {/* BUTTON */}
                 <button
                   type="submit"
-                  className="h-14 w-full rounded-2xl bg-yellow-500 text-sm font-semibold text-black transition hover:bg-yellow-400"
+                  className="h-14 w-full rounded-2xl bg-yellow-500 text-sm font-semibold text-black transition hover:bg-yellow-400 cursor-pointer disabled:cursor-not-allowed disabled:bg-yellow-300"
                 >
-                  Create Account
+                  {isLoading ? "Creating Account..." : "Create Account"}
                 </button>
               </form>
 
