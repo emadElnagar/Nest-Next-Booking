@@ -12,6 +12,7 @@ import ErrorAlert from "../../components/ErrorAlert";
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isPasswordMatched, setIsPasswordMatched] = useState(true);
   const [registerUser, { isLoading, isError, error }] =
     useRegisterUserMutation();
 
@@ -27,9 +28,10 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: UserRegister) => {
     if (data.password !== data.confirmPassword) {
-      alert("Passwords do not match!");
+      setIsPasswordMatched(false);
       return;
     }
+    setIsPasswordMatched(true);
     await registerUser(data).unwrap();
     reset();
   };
@@ -49,6 +51,10 @@ export default function RegisterPage() {
 
       {/* CONTENT */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-10">
+        {/* Password Match Alert */}
+        {!isPasswordMatched && (
+          <ErrorAlert message="Passwords do not match. Please try again." />
+        )}
         {/* Error Alert */}
         {isError && (
           <ErrorAlert
