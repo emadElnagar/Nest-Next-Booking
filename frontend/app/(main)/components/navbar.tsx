@@ -14,6 +14,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useGetCurrentUserQuery } from "@/lib/services/authApi";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -26,6 +27,7 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+  const { data: currentUser, isLoading } = useGetCurrentUserQuery();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
