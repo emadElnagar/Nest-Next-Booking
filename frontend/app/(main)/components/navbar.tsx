@@ -207,9 +207,8 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
           ) : (
-            {
-              /* Non logged in user Button */
-            }(
+            <>
+              {/* Non logged in user Button */}
               <div className="relative">
                 <button
                   onClick={() => setUserOpen(!userOpen)}
@@ -288,8 +287,8 @@ export default function Navbar() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>,
-            )
+              </div>
+            </>
           )}
 
           <Link
