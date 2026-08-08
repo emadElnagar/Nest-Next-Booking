@@ -85,7 +85,7 @@ export class AuthService {
   // Generate JWT token
   private async generateTokens(userId: string, email: string) {
     const payload = {
-      sub: userId,
+      userId: userId,
       email,
     };
 
