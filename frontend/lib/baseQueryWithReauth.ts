@@ -53,6 +53,19 @@ export const baseQueryWithReauth: BaseQueryFn<
 
   let result = await baseQuery(args, api, extraOptions);
 
+  // Store access token after successful login
+  if (
+    typeof args === "object" &&
+    ["/auth/login", "/auth/register"].includes(args.url) &&
+    result.data
+  ) {
+    const { accessToken } = result.data as {
+      accessToken: string;
+    };
+
+    tokenStorage.set(accessToken);
+  }
+
   if (result.error?.status === 401) {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();

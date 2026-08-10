@@ -10,6 +10,7 @@ export const usersApi = api.injectEndpoints({
         method: "POST",
         body: user,
       }),
+      invalidatesTags: ["Auth"],
     }),
 
     // User login
@@ -19,11 +20,13 @@ export const usersApi = api.injectEndpoints({
         method: "POST",
         body: user,
       }),
+      invalidatesTags: ["Auth"],
     }),
 
     // Get current user
     getCurrentUser: builder.query<User, void>({
       query: () => "/auth/me",
+      providesTags: ["Auth"],
     }),
 
     // Refresh token
