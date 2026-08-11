@@ -27,7 +27,12 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const { data: currentUser, isLoading } = useGetCurrentUserQuery();
+  const {
+    data: currentUser,
+    isLoading,
+    isError,
+    error,
+  } = useGetCurrentUserQuery();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -134,7 +139,9 @@ export default function Navbar() {
                   <User size={16} />
                 </div>
 
-                <span className="px-1 text-sm font-medium">Emad</span>
+                <span className="px-1 text-sm font-medium">
+                  {currentUser.firstName}
+                </span>
 
                 <ChevronDown
                   size={16}
@@ -166,11 +173,11 @@ export default function Navbar() {
                     {/* TOP */}
                     <div className="border-b border-white/10 p-5">
                       <p className="text-lg font-semibold text-white">
-                        Emad Elnagar
+                        {currentUser.firstName} {currentUser.lastName}
                       </p>
 
                       <p className="mt-1 text-sm text-gray-400">
-                        emad@example.com
+                        {currentUser.email}
                       </p>
                     </div>
 
