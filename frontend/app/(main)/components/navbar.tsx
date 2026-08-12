@@ -14,7 +14,10 @@ import {
   LogOut,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useGetCurrentUserQuery } from "@/lib/services/authApi";
+import {
+  useGetCurrentUserQuery,
+  useLogoutUserMutation,
+} from "@/lib/services/authApi";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -27,12 +30,8 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const {
-    data: currentUser,
-    isLoading,
-    isError,
-    error,
-  } = useGetCurrentUserQuery();
+  const { data: currentUser } = useGetCurrentUserQuery();
+  const [logoutUser] = useLogoutUserMutation();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -53,6 +52,12 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Handle logout
+  const handleLogout = async () => {
+    await logoutUser().unwrap();
+    setUserOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black/70 backdrop-blur-xl">
@@ -203,7 +208,10 @@ export default function Navbar() {
 
                       <div className="my-3 border-t border-white/10" />
 
-                      <button className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-red-400 transition hover:bg-red-500/10 cursor-pointer">
+                      <button
+                        onClick={handleLogout}
+                        className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-red-400 transition hover:bg-red-500/10 cursor-pointer"
+                      >
                         <LogOut size={18} />
 
                         <span className="text-sm font-medium">Logout</span>
