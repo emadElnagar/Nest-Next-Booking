@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 import {
   Menu,
   X,
@@ -18,6 +20,7 @@ import {
   useGetCurrentUserQuery,
   useLogoutUserMutation,
 } from "@/lib/services/authApi";
+import { usersApi } from "@/lib/services/authApi";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -31,8 +34,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
   const { data: currentUser } = useGetCurrentUserQuery();
-  const [logoutUser] = useLogoutUserMutation();
+  const [logoutUser, { isLoading: logoutLoading }] = useLogoutUserMutation();
 
+  const router = useRouter();
+  const dispatch = useDispatch();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown outside click
@@ -57,6 +62,8 @@ export default function Navbar() {
   const handleLogout = async () => {
     await logoutUser().unwrap();
     setUserOpen(false);
+    dispatch(usersApi.util.resetApiState());
+    router.push("/");
   };
 
   return (
@@ -214,7 +221,9 @@ export default function Navbar() {
                       >
                         <LogOut size={18} />
 
-                        <span className="text-sm font-medium">Logout</span>
+                        <span className="text-sm font-medium">
+                          {logoutLoading ? "Logging out..." : "Logout"}
+                        </span>
                       </button>
                     </div>
                   </motion.div>
