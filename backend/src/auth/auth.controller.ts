@@ -40,10 +40,11 @@ export class AuthController {
       data.password,
     );
 
+    this.setAccessCookie(res, accessToken);
     this.setRefreshCookie(res, refreshToken);
 
     return {
-      accessToken,
+      message: 'Logged in successfully',
     };
   }
 
