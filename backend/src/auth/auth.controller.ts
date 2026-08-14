@@ -24,9 +24,12 @@ export class AuthController {
   ) {
     const { accessToken, refreshToken } = await this.authService.signup(data);
 
+    this.setAccessCookie(res, accessToken);
     this.setRefreshCookie(res, refreshToken);
 
-    return { accessToken };
+    return {
+      message: 'Registered successfully',
+    };
   }
 
   // User login
