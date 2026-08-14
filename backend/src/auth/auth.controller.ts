@@ -81,6 +81,16 @@ export class AuthController {
     return this.authService.logout(data.userId);
   }
 
+  // Set access cookie
+  private setAccessCookie(res: Response, token: string) {
+    res.cookie('accessToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 15 * 60 * 1000,
+    });
+  }
+
   // Set refresh cookie
   private setRefreshCookie(res: Response, token: string) {
     res.cookie('refreshToken', token, {
