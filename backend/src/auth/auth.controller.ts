@@ -78,8 +78,24 @@ export class AuthController {
 
   // User logout
   @Post('logout')
-  async logout(@Body() data: { userId: string }) {
-    return this.authService.logout(data.userId);
+  async logout(@Res({ passthrough: true }) res: Response) {
+    // Clear access token
+    res.clearCookie('accessToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+
+    // Clear refresh token
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+
+    return {
+      message: 'Logged out successfully',
+    };
   }
 
   // Set access cookie
