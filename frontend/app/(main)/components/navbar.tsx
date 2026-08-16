@@ -233,7 +233,7 @@ export default function Navbar() {
           ) : (
             <>
               {/* Non logged in user Button */}
-              <div className="relative">
+              <div ref={dropdownRef} className="relative">
                 <button
                   onClick={() => setUserOpen(!userOpen)}
                   className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2 py-2 text-gray-200 transition hover:border-yellow-400 hover:text-yellow-400 cursor-pointer"
