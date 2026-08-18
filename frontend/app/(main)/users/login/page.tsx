@@ -4,13 +4,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useState } from "react";
-import { useLoginUserMutation } from "@/lib/services/authApi";
+import {
+  useGetCurrentUserQuery,
+  useLoginUserMutation,
+} from "@/lib/services/authApi";
 import { useForm } from "react-hook-form";
 import { UserLogin } from "@/types/user";
 import ErrorAlert from "../../components/ErrorAlert";
+import { useDispatch } from "react-redux";
+import { usersApi } from "@/lib/services/authApi";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
+  const { data: currentUser } = useGetCurrentUserQuery();
   const [userLogin, { isLoading, isError, error }] = useLoginUserMutation();
   const { register, handleSubmit, reset } = useForm<UserLogin>({
     defaultValues: {
@@ -23,6 +33,12 @@ export default function LoginPage() {
     await userLogin(data).unwrap();
     reset();
   };
+
+  // Redirect to home page if user is already logged in
+  if (currentUser) {
+    dispatch(usersApi.util.resetApiState());
+    router.replace("/");
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#f8f6f2]">

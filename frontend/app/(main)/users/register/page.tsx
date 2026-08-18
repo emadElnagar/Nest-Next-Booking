@@ -6,10 +6,20 @@ import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserRegister } from "@/types/user";
-import { useRegisterUserMutation } from "@/lib/services/authApi";
+import {
+  useGetCurrentUserQuery,
+  useRegisterUserMutation,
+} from "@/lib/services/authApi";
 import ErrorAlert from "../../components/ErrorAlert";
+import { useDispatch } from "react-redux";
+import { usersApi } from "@/lib/services/authApi";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { data: currentUser } = useGetCurrentUserQuery();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPasswordMatched, setIsPasswordMatched] = useState(true);
@@ -35,6 +45,12 @@ export default function RegisterPage() {
     await registerUser(data).unwrap();
     reset();
   };
+
+  // Redirect to home page if user is already logged in
+  if (currentUser) {
+    dispatch(usersApi.util.resetApiState());
+    router.replace("/");
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#f8f6f2]">
