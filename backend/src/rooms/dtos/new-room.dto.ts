@@ -7,7 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export class CreateRoom {
+export class CreateRoomDto {
   @IsString()
   @IsNotEmpty()
   roomNumber: string;
