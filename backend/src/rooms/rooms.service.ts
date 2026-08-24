@@ -15,4 +15,9 @@ export class RoomsService {
     const room = this.roomRepo.create(data);
     return this.roomRepo.save(room);
   }
+
+  // Get all rooms
+  getRooms() {
+    return this.roomRepo.find();
+  }
 }
