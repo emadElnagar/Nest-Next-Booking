@@ -44,4 +44,13 @@ export class RoomsService {
     Object.assign(room, data);
     return this.roomRepo.save(room);
   }
+
+  // Delete a room
+  async deleteRoom(id: string): Promise<void> {
+    const room = await this.getRoom(id);
+    if (!room) {
+      throw new NotFoundException('Room not found');
+    }
+    await this.roomRepo.remove(room);
+  }
 }

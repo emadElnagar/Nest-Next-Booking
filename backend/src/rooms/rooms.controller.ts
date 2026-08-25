@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { Room } from './room.entity';
 import { CreateRoomDto } from './dtos/new-room.dto';
@@ -33,7 +42,7 @@ export class RoomsController {
   }
 
   // Update a room
-  @Post(':id')
+  @Patch(':id')
   @UseGuards(AccessTokenGuard, PermissionsGuard)
   @Permissions(Permission.UPDATE_ROOM)
   updateRoom(
@@ -41,5 +50,13 @@ export class RoomsController {
     @Body() data: UpdateRoomDto,
   ): Promise<Room> {
     return this.roomsService.updateRoom(id, data);
+  }
+
+  // Delete a room
+  @Delete(':id')
+  @UseGuards(AccessTokenGuard, PermissionsGuard)
+  @Permissions(Permission.DELETE_ROOM)
+  deleteRoom(@Param('id') id: string): Promise<void> {
+    return this.roomsService.deleteRoom(id);
   }
 }
