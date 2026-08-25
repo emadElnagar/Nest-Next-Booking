@@ -25,4 +25,10 @@ export class RoomsController {
   getRooms(): Promise<Room[]> {
     return this.roomsService.getRooms();
   }
+
+  // Get a single room
+  @Get(':id')
+  getRoom(id: string): Promise<Room> {
+    return this.roomsService.getRoom(id);
+  }
 }

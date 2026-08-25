@@ -20,4 +20,9 @@ export class RoomsService {
   getRooms() {
     return this.roomRepo.find();
   }
+
+  // Get a single room
+  getRoom(id: string) {
+    return this.roomRepo.findOne({ where: { id } });
+  }
 }
