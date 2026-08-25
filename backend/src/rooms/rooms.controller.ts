@@ -6,6 +6,7 @@ import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { PermissionsGuard } from '../authorization/guards/permissions.guard';
 import { Permissions } from '../authorization/decorators/permissions.decorator';
 import { Permission } from '../authorization/enums/permission.enum';
+import { UpdateRoomDto } from './dtos/update-room.dto';
 
 @Controller('rooms')
 export class RoomsController {
@@ -27,7 +28,18 @@ export class RoomsController {
 
   // Get a single room
   @Get(':id')
-  getRoom(@Param('id') id: string): Promise<Room> {
+  getRoom(@Param('id') id: string): Promise<Room | null> {
     return this.roomsService.getRoom(id);
+  }
+
+  // Update a room
+  @Post(':id')
+  @UseGuards(AccessTokenGuard, PermissionsGuard)
+  @Permissions(Permission.UPDATE_ROOM)
+  updateRoom(
+    @Param('id') id: string,
+    @Body() data: UpdateRoomDto,
+  ): Promise<Room> {
+    return this.roomsService.updateRoom(id, data);
   }
 }
