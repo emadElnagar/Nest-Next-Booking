@@ -9,6 +9,7 @@ import {
   Menu,
   X,
   User,
+  Lock,
   Search,
   ChevronDown,
   Settings,
@@ -200,6 +201,14 @@ export default function Navbar() {
                         label="My Profile"
                         href="/profile"
                       />
+
+                      {currentUser.role === "admin" && (
+                        <DropdownItem
+                          icon={<Lock size={18} />}
+                          label="Dashboard"
+                          href="/admin"
+                        />
+                      )}
 
                       <DropdownItem
                         icon={<Heart size={18} />}
