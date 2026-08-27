@@ -6,11 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUser } from './dtos/new-user.dto';
 import { UsersService } from './users.service';
 import { UserRole } from './enums/user.enums';
 import { updateUserDto } from './dtos/update-user.dto';
+import { AccessTokenGuard } from '../auth/guards/access-token.guard';
+import { PermissionsGuard } from '../authorization/guards/permissions.guard';
+import { Permissions } from '../authorization/decorators/permissions.decorator';
+import { Permission } from '../authorization/enums/permission.enum';
 
 @Controller('users')
 export class UsersController {
@@ -18,6 +23,8 @@ export class UsersController {
 
   // Create a new user
   @Post()
+  @UseGuards(AccessTokenGuard, PermissionsGuard)
+  @Permissions(Permission.CREATE_USER)
   create(@Body() dto: CreateUser) {
     return this.usersService.create({
       ...dto,
