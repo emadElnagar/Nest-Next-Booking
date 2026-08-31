@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { RoomType } from './enums/room.enums';
 
 @Entity('rooms')
 export class Room {
@@ -22,7 +23,10 @@ export class Room {
   @Column('simple-array')
   images: string[];
 
-  @Column()
+  @Column('simple-array')
+  amenities: string[];
+
+  @Column({ type: 'enum', enum: RoomType })
   type: string;
 
   @Column()
