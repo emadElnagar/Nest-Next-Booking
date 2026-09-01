@@ -10,7 +10,7 @@ import {
   useGetCurrentUserQuery,
   useRegisterUserMutation,
 } from "@/lib/services/authApi";
-import ErrorAlert from "../../components/ErrorAlert";
+import ErrorAlert from "@/components/alerts/ErrorAlert";
 import { useDispatch } from "react-redux";
 import { usersApi } from "@/lib/services/authApi";
 import { useRouter } from "next/navigation";
