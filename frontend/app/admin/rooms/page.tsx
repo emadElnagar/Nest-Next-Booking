@@ -1,14 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import {
   Plus,
   Search,
   SlidersHorizontal,
-  MoreVertical,
   BedDouble,
   Users,
-  Pencil,
-  Trash2,
 } from "lucide-react";
+import { useState } from "react";
+import RoomActions from "@/components/admin/RoomActions";
 
 const rooms = [
   {
@@ -64,6 +65,7 @@ const rooms = [
 ];
 
 export default function RoomsPage() {
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   return (
     <main className="p-6 lg:p-8">
       {/* Header */}
@@ -237,7 +239,7 @@ export default function RoomsPage() {
                   </td>
 
                   {/* Guests */}
-                  <td className="px-6 py-5">
+                  <td className="px-6 py-4">
                     <div className="text-sm text-gray-700">
                       <span>{room.adults} adults</span>
                       <span className="mx-1 text-gray-300">•</span>
@@ -261,28 +263,11 @@ export default function RoomsPage() {
 
                   {/* Actions */}
                   <td className="px-6 py-5">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        title="Edit room"
-                        className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
-                      >
-                        <Pencil size={16} />
-                      </button>
-
-                      <button
-                        title="Delete room"
-                        className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition hover:bg-red-50 hover:text-red-500"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-
-                      <button
-                        title="More"
-                        className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
-                      >
-                        <MoreVertical size={17} />
-                      </button>
-                    </div>
+                    <RoomActions
+                      roomId={room.id}
+                      openMenu={openMenu}
+                      setOpenMenu={setOpenMenu}
+                    />
                   </td>
                 </tr>
               ))}
