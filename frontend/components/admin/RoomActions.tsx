@@ -8,11 +8,7 @@ import {
 } from "lucide-react";
 import { useRef, useState } from "react";
 
-function RoomActions({
-  roomId,
-  openMenu,
-  setOpenMenu,
-}: {
+function RoomActions({}: {
   roomId: string;
   openMenu: string | null;
   setOpenMenu: (id: string | null) => void;
