@@ -1,11 +1,16 @@
 export interface Room {
   id: string;
-  number: string;
+  roomNumber: string;
   description: string;
+  images: string[];
+  amenities: string[];
+  type: string;
+  isAvailable: boolean;
   capacity: number;
   adults: number;
   children: number;
   pricePerNight: number;
+  bookings: object[];
   createdAt: Date;
   updatedAt: Date;
 }
