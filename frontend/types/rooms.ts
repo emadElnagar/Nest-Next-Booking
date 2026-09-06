@@ -14,3 +14,16 @@ export interface Room {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface CreateRoom {
+  roomNumber: string;
+  description: string;
+  images: string[];
+  amenities: string[];
+  type: string;
+  isAvailable: boolean;
+  capacity: number;
+  adults: number;
+  children: number;
+  pricePerNight: number;
+}
