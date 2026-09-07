@@ -27,3 +27,16 @@ export interface CreateRoom {
   children: number;
   pricePerNight: number;
 }
+
+export interface UpdateRoom {
+  roomNumber: string;
+  description: string;
+  images: string[];
+  amenities: string[];
+  type: string;
+  isAvailable: boolean;
+  capacity: number;
+  adults: number;
+  children: number;
+  pricePerNight: number;
+}
