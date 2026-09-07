@@ -16,8 +16,14 @@ export const roomsApi = api.injectEndpoints({
     getAllRooms: builder.query<Room[], void>({
       query: () => "/rooms",
     }),
+
+    // Get a single room
+    getRoom: builder.query<Room, string>({
+      query: (id) => `/rooms/${id}`,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateRoomMutation, useGetAllRoomsQuery } = roomsApi;
+export const { useCreateRoomMutation, useGetAllRoomsQuery, useGetRoomQuery } =
+  roomsApi;
