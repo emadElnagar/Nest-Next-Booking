@@ -30,6 +30,14 @@ export const roomsApi = api.injectEndpoints({
         body: updateRoom,
       }),
     }),
+
+    // Delete a room
+    deleteRoom: builder.mutation({
+      query: (id: string) => ({
+        url: `/rooms/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
