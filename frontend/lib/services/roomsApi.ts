@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { CreateRoom, Room } from "@/types/rooms";
+import { CreateRoom, Room, UpdateRoom } from "@/types/rooms";
 
 export const roomsApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,9 +21,22 @@ export const roomsApi = api.injectEndpoints({
     getRoom: builder.query<Room, string>({
       query: (id) => `/rooms/${id}`,
     }),
+
+    // Update a room
+    updateRoom: builder.mutation({
+      query: ({ id, updateRoom }: { id: string; updateRoom: UpdateRoom }) => ({
+        url: `/rooms/${id}`,
+        method: "PATCH",
+        body: updateRoom,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreateRoomMutation, useGetAllRoomsQuery, useGetRoomQuery } =
-  roomsApi;
+export const {
+  useCreateRoomMutation,
+  useGetAllRoomsQuery,
+  useGetRoomQuery,
+  useUpdateRoomMutation,
+} = roomsApi;
