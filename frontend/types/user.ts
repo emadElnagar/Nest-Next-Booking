@@ -3,29 +3,21 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
   image: string | null;
   role: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface CreateUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  image?: string | null;
-  role?: string;
-}
+export type CreateUser = Omit<
+  User,
+  "id" | "createdAt" | "updatedAt" | "image" | "role"
+>;
 
-export interface UpdateUser {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  password?: string;
-  image?: string | null;
+export type UpdateUser = Partial<CreateUser> & {
   role?: string;
-}
+};
 
 export interface UserLogin {
   email: string;
