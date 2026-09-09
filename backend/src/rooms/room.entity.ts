@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { RoomType } from './enums/room.enums';
+import { RoomStatus, RoomType } from './enums/room.enums';
 
 @Entity('rooms')
 export class Room {
@@ -41,8 +41,12 @@ export class Room {
   @Column('decimal', { precision: 7, scale: 2 })
   pricePerNight: number;
 
-  @Column({ default: true })
-  isAvailable: boolean;
+  @Column({
+    type: 'enum',
+    enum: RoomStatus,
+    default: RoomStatus.AVAILABLE,
+  })
+  status: RoomStatus;
 
   @OneToMany(() => Booking, (booking) => booking.room)
   bookings: Booking[];
