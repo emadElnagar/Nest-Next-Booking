@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { Room } from './room.entity';
@@ -16,6 +18,7 @@ import { PermissionsGuard } from '../authorization/guards/permissions.guard';
 import { Permissions } from '../authorization/decorators/permissions.decorator';
 import { Permission } from '../authorization/enums/permission.enum';
 import { UpdateRoomDto } from './dtos/update-room.dto';
+import { FileInterceptor } from '@nestjs/platform-express/multer/interceptors/file.interceptor';
 
 @Controller('rooms')
 export class RoomsController {
@@ -24,9 +27,13 @@ export class RoomsController {
   // Create a new room
   @Post()
   @UseGuards(AccessTokenGuard, PermissionsGuard)
+  @UseInterceptors(FileInterceptor('image'))
   @Permissions(Permission.CREATE_ROOM)
-  createRoom(@Body() data: CreateRoomDto): Promise<Room> {
-    return this.roomsService.createRoom(data);
+  createRoom(
+    @Body() data: CreateRoomDto,
+    @UploadedFile() image: any,
+  ): Promise<Room> {
+    return this.roomsService.createRoom(data, image);
   }
 
   // Get all rooms
@@ -48,8 +55,9 @@ export class RoomsController {
   updateRoom(
     @Param('id') id: string,
     @Body() data: UpdateRoomDto,
+    @UploadedFile() image: any,
   ): Promise<Room> {
-    return this.roomsService.updateRoom(id, data);
+    return this.roomsService.updateRoom(id, data, image);
   }
 
   // Delete a room

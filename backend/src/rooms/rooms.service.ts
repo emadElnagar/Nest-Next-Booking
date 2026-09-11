@@ -13,7 +13,7 @@ export class RoomsService {
   ) {}
 
   // Create a new room
-  createRoom(data: CreateRoomDto): Promise<Room> {
+  createRoom(data: CreateRoomDto, image: any): Promise<Room> {
     const room = this.roomRepo.create(data);
     return this.roomRepo.save(room);
   }
@@ -36,7 +36,7 @@ export class RoomsService {
   }
 
   // Update a room
-  async updateRoom(id: string, data: UpdateRoomDto): Promise<Room> {
+  async updateRoom(id: string, data: UpdateRoomDto, image: any): Promise<Room> {
     const room = await this.getRoom(id);
     if (!room) {
       throw new NotFoundException('Room not found');
