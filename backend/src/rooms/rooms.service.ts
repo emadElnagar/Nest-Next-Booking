@@ -21,7 +21,6 @@ export class RoomsService {
       ...data,
       images: images.map((image) => image.filename),
     });
-
     return this.roomRepo.save(room);
   }
 
@@ -43,7 +42,11 @@ export class RoomsService {
   }
 
   // Update a room
-  async updateRoom(id: string, data: UpdateRoomDto, image: any): Promise<Room> {
+  async updateRoom(
+    id: string,
+    data: UpdateRoomDto,
+    images: Express.Multer.File[],
+  ): Promise<Room> {
     const room = await this.getRoom(id);
     if (!room) {
       throw new NotFoundException('Room not found');
