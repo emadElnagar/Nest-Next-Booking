@@ -7,8 +7,8 @@ import {
   Patch,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { Room } from './room.entity';
@@ -18,7 +18,8 @@ import { PermissionsGuard } from '../authorization/guards/permissions.guard';
 import { Permissions } from '../authorization/decorators/permissions.decorator';
 import { Permission } from '../authorization/enums/permission.enum';
 import { UpdateRoomDto } from './dtos/update-room.dto';
-import { FileInterceptor } from '@nestjs/platform-express/multer/interceptors/file.interceptor';
+import { ArrayFilesCountPipe } from './pipes/array-files-count.pipe';
+import { UseRoomImagesUpload } from './decorators/room-images-upload.decorator';
 
 @Controller('rooms')
 export class RoomsController {
@@ -28,12 +29,15 @@ export class RoomsController {
   @Post()
   @UseGuards(AccessTokenGuard, PermissionsGuard)
   @Permissions(Permission.CREATE_ROOM)
-  @UseInterceptors(FileInterceptor('images'))
+  @UseRoomImagesUpload()
   createRoom(
     @Body() data: CreateRoomDto,
-    @UploadedFile() images: Express.Multer.File[],
+    @UploadedFiles(new ArrayFilesCountPipe(3, 6)) images: Express.Multer.File[],
   ): Promise<Room> {
-    return this.roomsService.createRoom(data, images);
+    const imagePaths: string[] = images.map((file) =>
+      file.path.replace(/\\/g, '/'),
+    );
+    return this.roomsService.createRoom(data, imagePaths);
   }
 
   // Get all rooms

@@ -13,14 +13,12 @@ export class RoomsService {
   ) {}
 
   // Create a new room
-  createRoom(
-    data: CreateRoomDto,
-    images: Express.Multer.File[],
-  ): Promise<Room> {
+  async createRoom(data: CreateRoomDto, images: string[]): Promise<Room> {
     const room = this.roomRepo.create({
       ...data,
-      images: images.map((image) => image.filename),
+      images,
     });
+
     return this.roomRepo.save(room);
   }
 
