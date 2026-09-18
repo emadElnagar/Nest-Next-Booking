@@ -45,14 +45,24 @@ export class RoomsService {
   async updateRoom(
     id: string,
     data: UpdateRoomDto,
-    images: Express.Multer.File[],
+    newImagePaths: string[],
   ): Promise<Room> {
-    const room = await this.getRoom(id);
+    const room = await this.roomRepo.findOne({ where: { id } });
+
+    // Cleanup newly uploaded files from disk if room doesn't exist
     if (!room) {
-      throw new NotFoundException('Room not found');
+      this.deleteImagesFromDisk(newImagePaths);
+      throw new NotFoundException(`Room not found`);
     }
+
+    // If new images were uploaded, delete old images from disk and replace them
+    if (newImagePaths && newImagePaths.length > 0) {
+      this.deleteImagesFromDisk(room.images);
+      room.images = newImagePaths;
+    }
+
     Object.assign(room, data);
-    return this.roomRepo.save(room);
+    return await this.roomRepo.save(room);
   }
 
   // Delete a room

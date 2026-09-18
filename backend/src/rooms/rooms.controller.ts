@@ -56,12 +56,15 @@ export class RoomsController {
   @Patch(':id')
   @UseGuards(AccessTokenGuard, PermissionsGuard)
   @Permissions(Permission.UPDATE_ROOM)
+  @UseRoomImagesUpload()
   updateRoom(
     @Param('id') id: string,
     @Body() data: UpdateRoomDto,
-    @UploadedFile() images: Express.Multer.File[],
+    @UploadedFile() images?: Express.Multer.File[],
   ): Promise<Room> {
-    return this.roomsService.updateRoom(id, data, images);
+    const newImagesPaths =
+      images?.map((file) => file.path.replace(/\\/g, '/')) || [];
+    return this.roomsService.updateRoom(id, data, newImagesPaths);
   }
 
   // Delete a room
