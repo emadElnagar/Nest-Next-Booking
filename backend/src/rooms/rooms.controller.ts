@@ -25,7 +25,9 @@ import { UseRoomImagesUpload } from './decorators/room-images-upload.decorator';
 export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
 
+  // ==========================================
   // Create a new room
+  // ==========================================
   @Post()
   @UseGuards(AccessTokenGuard, PermissionsGuard)
   @Permissions(Permission.CREATE_ROOM)
@@ -39,20 +41,25 @@ export class RoomsController {
     );
     return this.roomsService.createRoom(data, imagePaths);
   }
-
+  // ==========================================
   // Get all rooms
+  // ==========================================
   @Get()
   getRooms(): Promise<Room[]> {
     return this.roomsService.getRooms();
   }
 
+  // ==========================================
   // Get a single room
+  // ==========================================
   @Get(':id')
   getRoom(@Param('id') id: string): Promise<Room | null> {
     return this.roomsService.getRoom(id);
   }
 
+  // ==========================================
   // Update a room
+  // ==========================================
   @Patch(':id')
   @UseGuards(AccessTokenGuard, PermissionsGuard)
   @Permissions(Permission.UPDATE_ROOM)
@@ -67,11 +74,14 @@ export class RoomsController {
     return this.roomsService.updateRoom(id, data, newImagesPaths);
   }
 
+  // ==========================================
   // Delete a room
+  // ==========================================
   @Delete(':id')
   @UseGuards(AccessTokenGuard, PermissionsGuard)
   @Permissions(Permission.DELETE_ROOM)
-  deleteRoom(@Param('id') id: string): Promise<void> {
-    return this.roomsService.deleteRoom(id);
+  async deleteRoom(@Param('id') id: string): Promise<{ message: string }> {
+    await this.roomsService.deleteRoom(id);
+    return { message: 'Room deleted successfully' };
   }
 }

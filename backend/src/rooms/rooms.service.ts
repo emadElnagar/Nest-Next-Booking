@@ -14,7 +14,9 @@ export class RoomsService {
     private roomRepo: Repository<Room>,
   ) {}
 
+  // ==========================================
   // Create a new room
+  // ==========================================
   async createRoom(data: CreateRoomDto, images: string[]): Promise<Room> {
     const room = this.roomRepo.create({
       ...data,
@@ -29,7 +31,9 @@ export class RoomsService {
     return this.roomRepo.find();
   }
 
+  // ==========================================
   // Get a single room
+  // ==========================================
   async getRoom(id: string): Promise<Room | null> {
     const room = await this.roomRepo.findOne({
       where: { id },
@@ -41,7 +45,9 @@ export class RoomsService {
     return room;
   }
 
+  // ==========================================
   // Update a room
+  // ==========================================
   async updateRoom(
     id: string,
     data: UpdateRoomDto,
@@ -65,12 +71,17 @@ export class RoomsService {
     return await this.roomRepo.save(room);
   }
 
+  // ==========================================
   // Delete a room
+  // ==========================================
   async deleteRoom(id: string): Promise<void> {
     const room = await this.getRoom(id);
+
     if (!room) {
       throw new NotFoundException('Room not found');
     }
+
+    this.deleteImagesFromDisk(room.images);
     await this.roomRepo.remove(room);
   }
 
