@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Room } from './room.entity';
 import { CreateRoomDto } from './dtos/new-room.dto';
 import { UpdateRoomDto } from './dtos/update-room.dto';
+import path from 'path';
+import fs from 'fs';
 
 @Injectable()
 export class RoomsService {
@@ -60,5 +62,23 @@ export class RoomsService {
       throw new NotFoundException('Room not found');
     }
     await this.roomRepo.remove(room);
+  }
+
+  // ==========================================
+  // Delete images safely from disk
+  // ==========================================
+  private deleteImagesFromDisk(filePaths: string[]): void {
+    if (!filePaths || filePaths.length === 0) return;
+
+    for (const filePath of filePaths) {
+      try {
+        const fullPath = path.resolve(filePath);
+        if (fs.existsSync(fullPath)) {
+          fs.unlinkSync(fullPath);
+        }
+      } catch (error) {
+        console.error(`Failed to delete file at ${filePath}:`, error);
+      }
+    }
   }
 }
