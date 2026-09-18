@@ -26,7 +26,9 @@ export class RoomsService {
     return this.roomRepo.save(room);
   }
 
+  // ==========================================
   // Get all rooms
+  // ==========================================
   getRooms() {
     return this.roomRepo.find();
   }

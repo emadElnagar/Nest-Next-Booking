@@ -41,6 +41,7 @@ export class RoomsController {
     );
     return this.roomsService.createRoom(data, imagePaths);
   }
+
   // ==========================================
   // Get all rooms
   // ==========================================
