@@ -17,6 +17,8 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { useGetCurrentUserQuery } from "@/lib/services/authApi";
+import Image from "next/image";
 
 const menuItems = [
   {
@@ -61,8 +63,8 @@ export default function AdminSidebar({
   setCollapsed,
 }: AdminSidebarProps) {
   const pathname = usePathname();
-
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { data: currentUser } = useGetCurrentUserQuery();
 
   return (
     <>
@@ -223,17 +225,27 @@ export default function AdminSidebar({
           {/* ADMIN PROFILE */}
           {!collapsed ? (
             <div className="mb-3 flex items-center gap-3 rounded-xl bg-gray-50 p-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-900 text-sm font-semibold text-yellow-400">
-                A
-              </div>
+              {currentUser?.image ? (
+                <Image
+                  src={currentUser.image}
+                  alt="Profile Image"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 shrink-0 rounded-full object-cover"
+                />
+              ) : (
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-900 text-sm font-semibold text-yellow-400">
+                  {currentUser?.firstName?.[0]}
+                </div>
+              )}
 
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold text-gray-900">
-                  Admin
+                  {currentUser?.firstName}
                 </p>
 
                 <p className="truncate text-xs text-gray-500">
-                  admin@royalcrescent.com
+                  {currentUser?.email}
                 </p>
               </div>
             </div>
