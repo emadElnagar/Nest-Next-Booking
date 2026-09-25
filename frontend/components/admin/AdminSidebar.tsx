@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   BedDouble,
@@ -17,7 +17,10 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useGetCurrentUserQuery } from "@/lib/services/authApi";
+import {
+  useGetCurrentUserQuery,
+  useLogoutUserMutation,
+} from "@/lib/services/authApi";
 import Image from "next/image";
 
 const menuItems = [
@@ -65,7 +68,14 @@ export default function AdminSidebar({
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { data: currentUser } = useGetCurrentUserQuery();
+  const router = useRouter();
+  const [logoutUser, { isLoading: logoutLoading }] = useLogoutUserMutation();
 
+  // Handle logout
+  const handleLogout = async () => {
+    await logoutUser().unwrap();
+    router.push("/");
+  };
   return (
     <>
       {/* MOBILE BUTTON */}
@@ -268,7 +278,14 @@ export default function AdminSidebar({
           >
             <LogOut size={20} />
 
-            {!collapsed && <span className="text-sm font-medium">Logout</span>}
+            {!collapsed && (
+              <button
+                className="text-sm font-medium cursor-pointer"
+                onClick={handleLogout}
+              >
+                {logoutLoading ? "Logging out..." : "Logout"}
+              </button>
+            )}
           </button>
         </div>
 
