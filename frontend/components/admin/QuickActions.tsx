@@ -27,14 +27,14 @@ const actions = [
 export default function QuickActions() {
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-6">
-      <div>
+      <div className="border-b border-gray-200 px-6 py-5">
         <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>
         <p className="mt-1 text-sm text-gray-500">
           Frequently used admin actions
         </p>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="space-y-2 p-4">
         {actions.map((action) => {
           const Icon = action.icon;
 
