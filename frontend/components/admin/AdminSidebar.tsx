@@ -13,9 +13,9 @@ import {
   LogOut,
   Menu,
   MessageSquare,
-  Settings,
   Users,
   X,
+  ExternalLink,
 } from "lucide-react";
 import {
   useGetCurrentUserQuery,
@@ -200,33 +200,19 @@ export default function AdminSidebar({
 
           {!collapsed && (
             <p className="mb-3 mt-8 px-3 text-[11px] font-semibold uppercase tracking-[2px] text-gray-400">
-              System
+              Website
             </p>
           )}
 
           <Link
-            href="/admin/settings"
-            onClick={() => setMobileOpen(false)}
-            title={collapsed ? "Settings" : undefined}
-            className={`
-              group relative flex items-center rounded-xl
-              text-gray-600 transition
-              ${collapsed ? "justify-center px-3 py-3" : "gap-3 px-3 py-3"}
-              ${
-                pathname.startsWith("/admin/settings")
-                  ? "bg-yellow-50 text-yellow-700"
-                  : "hover:bg-gray-50 hover:text-gray-900"
-              }
-            `}
+            href="/"
+            className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 ${
+              collapsed ? "justify-center px-0" : ""
+            }`}
           >
-            <Settings
-              size={20}
-              className="shrink-0 text-gray-400 group-hover:text-gray-700"
-            />
+            <ExternalLink size={20} />
 
-            {!collapsed && (
-              <span className="text-sm font-medium">Settings</span>
-            )}
+            {!collapsed && <span>View Website</span>}
           </Link>
         </nav>
 
