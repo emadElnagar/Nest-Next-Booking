@@ -248,7 +248,19 @@ export default function AdminSidebar({
           ) : (
             <div className="mb-3 flex justify-center">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-900 text-sm font-semibold text-yellow-400">
-                A
+                {currentUser?.image ? (
+                  <Image
+                    src={currentUser.image}
+                    alt="Profile Image"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 shrink-0 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-900 text-sm font-semibold text-yellow-400">
+                    {currentUser?.firstName?.[0]}
+                  </div>
+                )}
               </div>
             </div>
           )}
