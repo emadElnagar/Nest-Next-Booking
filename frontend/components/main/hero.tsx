@@ -1,6 +1,13 @@
 import Image from "next/image";
 
-export default function hero(props) {
+type HeroProps = {
+  heroImage: string;
+  heroSubtitle: string;
+  heroTitle: string;
+  heroDescription: string;
+};
+
+export default function Hero(props: HeroProps) {
   return (
     <section className="relative flex min-h-[420px] items-center justify-center overflow-hidden">
       <Image
