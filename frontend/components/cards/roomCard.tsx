@@ -1,8 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BedDouble, Users, Wifi } from "lucide-react";
+import { UUID } from "crypto";
 
-export default function RoomCard() {
+export default function RoomCard({
+  room,
+}: {
+  room: {
+    image: string;
+    name: string;
+    type: string;
+    description: string;
+    price: number;
+    guests: number;
+    bedType: string;
+    amenities: string[];
+    id: UUID;
+  };
+}) {
   return (
     <article className="group overflow-hidden rounded-2xl bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       {/* Image */}
@@ -38,7 +53,7 @@ export default function RoomCard() {
 
           <span className="flex items-center gap-1.5">
             <BedDouble size={16} />
-            {room.size}
+            {room.bedType}
           </span>
         </div>
 
