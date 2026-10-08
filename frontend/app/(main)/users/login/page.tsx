@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useGetCurrentUserQuery,
   useLoginUserMutation,
@@ -35,10 +35,12 @@ export default function LoginPage() {
   };
 
   // Redirect to home page if user is already logged in
-  if (currentUser) {
-    dispatch(usersApi.util.resetApiState());
-    router.replace("/");
-  }
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(usersApi.util.resetApiState());
+      router.replace("/");
+    }
+  }, [currentUser, dispatch, router]);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#f8f6f2]">

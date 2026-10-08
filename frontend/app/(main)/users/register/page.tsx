@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserRegister } from "@/types/user";
 import {
@@ -47,10 +47,12 @@ export default function RegisterPage() {
   };
 
   // Redirect to home page if user is already logged in
-  if (currentUser) {
-    dispatch(usersApi.util.resetApiState());
-    router.replace("/");
-  }
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(usersApi.util.resetApiState());
+      router.replace("/");
+    }
+  }, [currentUser, dispatch, router]);
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#f8f6f2]">
