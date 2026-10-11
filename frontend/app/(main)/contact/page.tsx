@@ -15,7 +15,7 @@ export default function SendEmail() {
       {/* Hero */}
 
       <Hero
-        heroImage="/static/images/rooms/rooms-hero.png"
+        heroImage="/static/images/contact-hero.png"
         heroSubtitle="Get In Touch"
         heroTitle="Contact Us"
         heroDescription="Whether you have a question about your stay, need assistance with a booking, or simply want to learn more about our hotel, we are here to help."

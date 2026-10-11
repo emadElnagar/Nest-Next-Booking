@@ -129,7 +129,7 @@ export default function RoomsPage() {
     <main className="min-h-screen bg-[#f8f6f2]">
       {/* Hero */}
       <Hero
-        heroImage="/static/images/rooms/rooms-hero.png"
+        heroImage="/static/images/rooms-hero.png"
         heroSubtitle="Stay With Us"
         heroTitle="Find Your Perfect Room"
         heroDescription="Discover elegant rooms and suites designed to make your stay comfortable, peaceful, and unforgettable."

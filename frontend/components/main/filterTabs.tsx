@@ -14,7 +14,7 @@ export default function FilterTabs({
           key={filter}
           type="button"
           onClick={() => setActiveFilter(filter)}
-          className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-medium transition ${
+          className={`whitespace-nowrap cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition ${
             activeFilter === filter
               ? "bg-gray-900 text-white"
               : "bg-white text-gray-600 hover:bg-gray-100"
