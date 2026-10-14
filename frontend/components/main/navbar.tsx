@@ -25,9 +25,9 @@ import { usersApi } from "@/lib/services/authApi";
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Rooms", href: "/rooms" },
-  { name: "Suites", href: "/suites" },
+  { name: "Rooms&Suites", href: "/rooms" },
   { name: "Amenities", href: "/amenities" },
+  { name: "Gallery", href: "/gallery" },
   { name: "Contact", href: "/contact" },
 ];
 
