@@ -166,7 +166,7 @@ export default function RoomDetailsPage() {
             The room may have been removed or the link may be incorrect.
           </p>
           <Link
-            href="/main/rooms"
+            href="/rooms"
             className="mt-7 inline-flex items-center gap-2 rounded-lg bg-[#172a35] px-6 py-3 font-semibold text-white transition hover:bg-[#c5a45b] hover:text-[#172a35]"
           >
             <ArrowLeft size={18} />
@@ -199,7 +199,7 @@ export default function RoomDetailsPage() {
     });
 
     // eslint-disable-next-line react-hooks/immutability
-    window.location.href = `/main/bookings/new?${query.toString()}`;
+    window.location.href = `/bookings/new?${query.toString()}`;
   };
 
   const changeImage = (direction: number) => {
@@ -214,7 +214,7 @@ export default function RoomDetailsPage() {
       {/* Breadcrumb */}
       <div className="mx-auto max-w-7xl px-6 pt-8 lg:px-8">
         <Link
-          href="/main/rooms"
+          href="/rooms"
           className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-[#a98632]"
         >
           <ArrowLeft size={16} />
@@ -637,7 +637,7 @@ export default function RoomDetailsPage() {
           </div>
 
           <Link
-            href="/main/rooms"
+            href="/rooms"
             className="inline-flex w-fit items-center gap-2 rounded-lg border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-700 transition hover:border-[#c5a45b] hover:text-[#947322]"
           >
             Browse All Rooms
