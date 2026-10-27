@@ -1,45 +1,35 @@
-import { Booking } from 'src/bookings/booking.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
-import { RoomStatus, RoomType } from './enums/room.enums';
+import { RoomType } from '../room-type/room-type.entity';
+
+export enum RoomStatus {
+  AVAILABLE = 'available',
+  MAINTENANCE = 'maintenance',
+  INACTIVE = 'inactive',
+}
 
 @Entity('rooms')
 export class Room {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, length: 20 })
   roomNumber: string;
 
-  @Column('text')
-  description: string;
+  @ManyToOne(() => RoomType, (roomType) => roomType.rooms, {
+    nullable: false,
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({ name: 'roomTypeId' })
+  roomType: RoomType;
 
-  @Column('simple-array')
-  images: string[];
-
-  @Column('simple-array')
-  amenities: string[];
-
-  @Column({ type: 'enum', enum: RoomType })
-  type: string;
-
-  @Column()
-  capacity: number;
-
-  @Column()
-  adults: number;
-
-  @Column({ default: 0 })
-  children: number;
-
-  @Column('decimal', { precision: 7, scale: 2 })
-  pricePerNight: number;
+  @Column({ type: 'uuid' })
+  roomTypeId: string;
 
   @Column({
     type: 'enum',
@@ -47,13 +37,4 @@ export class Room {
     default: RoomStatus.AVAILABLE,
   })
   status: RoomStatus;
-
-  @OneToMany(() => Booking, (booking) => booking.room)
-  bookings: Booking[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }
