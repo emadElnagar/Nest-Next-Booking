@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  Check,
 } from 'typeorm';
 import { RoomType } from '../room-type/room-type.entity';
 
@@ -18,8 +19,9 @@ export class Room {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true, length: 20 })
-  roomNumber: string;
+  @Column({ unique: true, type: 'int', nullable: false })
+  @Check('"roomNumber" > 0')
+  roomNumber: number;
 
   @ManyToOne(() => RoomType, (roomType) => roomType.rooms, {
     nullable: false,
