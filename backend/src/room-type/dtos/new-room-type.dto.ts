@@ -19,6 +19,7 @@ export class NewRoomTypeDto {
   @IsNotEmpty()
   bedType: string;
 
+  @IsNumber()
   @IsNotEmpty()
   capacity: number;
 
@@ -26,9 +27,9 @@ export class NewRoomTypeDto {
   @IsNotEmpty()
   maxChildren?: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  basePrice: string;
+  basePrice: number;
 
   @IsArray()
   @ArrayNotEmpty()
