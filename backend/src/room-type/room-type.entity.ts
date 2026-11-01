@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Room } from '../rooms/room.entity';
+import { BedType } from './enums/bed-type.enums';
 
 @Entity('room_types')
 export class RoomType {
@@ -12,8 +13,12 @@ export class RoomType {
   @Column({ type: 'text', nullable: true })
   description: string | null;
 
-  @Column({ length: 50 })
-  bedType: string;
+  @Column({
+    type: 'enum',
+    enum: BedType,
+    default: BedType.SINGLE,
+  })
+  bedType: BedType;
 
   @Column({ type: 'int' })
   capacity: number;
