@@ -32,6 +32,9 @@ export class RoomType {
   @Column({ type: 'simple-array', nullable: true })
   amenities: string[] | null;
 
+  @Column({ type: 'simple-array', nullable: true })
+  images: string[];
+
   @OneToMany(() => Room, (room) => room.roomType)
   rooms: Room[];
 }
