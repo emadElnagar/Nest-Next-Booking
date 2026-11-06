@@ -1,37 +1,47 @@
 import {
-  ArrayNotEmpty,
-  IsArray,
-  IsNotEmpty,
-  IsNumber,
   IsString,
+  IsNotEmpty,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsArray,
+  ArrayNotEmpty,
+  Min,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+import { BedType } from '../enums/bed-type.enum';
 
-export class NewRoomTypeDto {
+export class CreateRoomTypeDto {
   @IsString()
   @IsNotEmpty()
   name: string;
 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   description?: string | null;
 
-  @IsString()
-  @IsNotEmpty()
-  bedType: string;
+  @IsEnum(BedType)
+  bedType: BedType;
 
+  @Type(() => Number)
   @IsNumber()
-  @IsNotEmpty()
+  @Min(1)
   capacity: number;
 
+  @IsOptional()
+  @Type(() => Number)
   @IsNumber()
-  @IsNotEmpty()
+  @Min(0)
   maxChildren?: number;
 
-  @IsNumber()
-  @IsNotEmpty()
+  @Type(() => Number)
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0)
   basePrice: number;
 
+  @IsOptional()
   @IsArray()
   @ArrayNotEmpty()
+  @IsString({ each: true })
   amenities?: string[] | null;
 }
