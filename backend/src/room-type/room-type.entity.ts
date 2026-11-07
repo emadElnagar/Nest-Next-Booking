@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Room } from '../rooms/room.entity';
-import { BedType } from './enums/bed-type.enums';
+import { BedType } from './enums/bed-type.enum';
 
 @Entity('room_types')
 export class RoomType {
