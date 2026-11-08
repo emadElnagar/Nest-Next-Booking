@@ -8,9 +8,9 @@ import {
 } from 'class-validator';
 
 export class CreateRoomDto {
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  roomNumber: string;
+  roomNumber: number;
 
   @IsString()
   @IsNotEmpty()
