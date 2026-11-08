@@ -5,8 +5,10 @@ import {
   ManyToOne,
   JoinColumn,
   Check,
+  OneToMany,
 } from 'typeorm';
 import { RoomType } from '../room-type/room-type.entity';
+import { Booking } from 'src/bookings/booking.entity';
 
 export enum RoomStatus {
   AVAILABLE = 'available',
@@ -39,4 +41,7 @@ export class Room {
     default: RoomStatus.AVAILABLE,
   })
   status: RoomStatus;
+
+  @OneToMany(() => Booking, (booking) => booking.room)
+  bookings: Booking[];
 }
