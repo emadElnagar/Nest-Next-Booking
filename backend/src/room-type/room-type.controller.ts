@@ -6,6 +6,7 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
+  Get,
 } from '@nestjs/common';
 import { RoomTypesService } from './room-type.service';
 import { CreateRoomTypeDto } from './dtos/new-room-type.dto';
@@ -38,5 +39,13 @@ export class RoomTypesController {
     images: Express.Multer.File[],
   ) {
     return this.roomTypesService.createRoomType(createRoomTypeDto, images);
+  }
+
+  // ==========================================
+  // Get all room types
+  // ==========================================
+  @Get()
+  getAllRoomTypes() {
+    return this.roomTypesService.getAllRoomTypes();
   }
 }

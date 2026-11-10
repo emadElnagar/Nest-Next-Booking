@@ -33,4 +33,11 @@ export class RoomTypesService {
 
     return await this.roomTypeRepo.save(roomType);
   }
+
+  // ==========================================
+  // Get all room types
+  // ==========================================
+  async getAllRoomTypes(): Promise<RoomType[]> {
+    return await this.roomTypeRepo.find();
+  }
 }
