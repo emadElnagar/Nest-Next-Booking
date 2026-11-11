@@ -40,4 +40,19 @@ export class RoomTypesService {
   async getAllRoomTypes(): Promise<RoomType[]> {
     return await this.roomTypeRepo.find();
   }
+
+  // ==========================================
+  // Get single room type
+  // ==========================================
+  async getRoomType(id: string): Promise<RoomType> {
+    const roomType = await this.roomTypeRepo.findOne({
+      where: { id },
+    });
+
+    if (!roomType) {
+      throw new ConflictException('Room type not found');
+    }
+
+    return roomType;
+  }
 }

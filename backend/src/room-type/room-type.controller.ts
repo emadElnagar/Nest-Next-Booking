@@ -7,6 +7,7 @@ import {
   MaxFileSizeValidator,
   FileTypeValidator,
   Get,
+  Param,
 } from '@nestjs/common';
 import { RoomTypesService } from './room-type.service';
 import { CreateRoomTypeDto } from './dtos/new-room-type.dto';
@@ -47,5 +48,13 @@ export class RoomTypesController {
   @Get()
   getAllRoomTypes() {
     return this.roomTypesService.getAllRoomTypes();
+  }
+
+  // ==========================================
+  // Get single room type
+  // ==========================================
+  @Get(':id')
+  getRoomType(@Param('id') id: string) {
+    return this.roomTypesService.getRoomType(id);
   }
 }
