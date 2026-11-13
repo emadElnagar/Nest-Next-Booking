@@ -1,8 +1,15 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RoomType } from './room-type.entity';
 import { CreateRoomTypeDto } from './dtos/new-room-type.dto';
+import { UpdateRoomTypeDto } from './dtos/update-room-type.dto';
+import { unlink } from 'fs/promises';
+import { basename, join } from 'path/win32';
 
 @Injectable()
 export class RoomTypesService {
@@ -54,5 +61,47 @@ export class RoomTypesService {
     }
 
     return roomType;
+  }
+
+  // ==========================================
+  // Update a room type
+  // ==========================================
+  async updateRoom(
+    id: string,
+    data: UpdateRoomTypeDto,
+    newImagesPaths: string[],
+  ): Promise<RoomType> {
+    const roomType = await this.roomTypeRepo.findOne({
+      where: { id },
+    });
+
+    if (!roomType) {
+      throw new NotFoundException('Room Type not found');
+    }
+
+    const oldImages = roomType.images ?? [];
+
+    Object.assign(roomType, data);
+
+    if (newImagesPaths.length > 0) {
+      roomType.images = newImagesPaths;
+    }
+
+    const updatedRoom = await this.roomTypeRepo.save(roomType);
+
+    // Delete old images after successful database update
+    if (newImagesPaths.length > 0) {
+      await Promise.all(
+        oldImages.map((image) =>
+          unlink(
+            join(process.cwd(), 'uploads', 'rooms', basename(image)),
+          ).catch((error) => {
+            if (error.code !== 'ENOENT') throw error;
+          }),
+        ),
+      );
+    }
+
+    return updatedRoom;
   }
 }
