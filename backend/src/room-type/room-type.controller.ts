@@ -8,6 +8,7 @@ import {
   FileTypeValidator,
   Get,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { RoomTypesService } from './room-type.service';
 import { CreateRoomTypeDto } from './dtos/new-room-type.dto';
@@ -56,5 +57,22 @@ export class RoomTypesController {
   @Get(':id')
   getRoomType(@Param('id') id: string) {
     return this.roomTypesService.getRoomType(id);
+  }
+
+  // ==========================================
+  // Update room type
+  // ==========================================
+  @Patch(':id')
+  @UploadImages('rooms', 6)
+  updateRoomType(
+    @Param('id') id: string,
+    @Body() updateRoomTypeDto: CreateRoomTypeDto,
+    @UploadedFiles() images: Express.Multer.File[],
+  ) {
+    return this.roomTypesService.updateRoomType(
+      id,
+      updateRoomTypeDto,
+      images.map((image) => image.path),
+    );
   }
 }

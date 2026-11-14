@@ -66,7 +66,7 @@ export class RoomTypesService {
   // ==========================================
   // Update a room type
   // ==========================================
-  async updateRoom(
+  async updateRoomType(
     id: string,
     data: UpdateRoomTypeDto,
     newImagesPaths: string[],
