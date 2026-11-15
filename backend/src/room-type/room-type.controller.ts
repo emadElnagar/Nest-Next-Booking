@@ -9,6 +9,7 @@ import {
   Get,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { RoomTypesService } from './room-type.service';
 import { CreateRoomTypeDto } from './dtos/new-room-type.dto';
@@ -74,5 +75,13 @@ export class RoomTypesController {
       updateRoomTypeDto,
       images.map((image) => image.path),
     );
+  }
+
+  // ==========================================
+  // Delete room type
+  // ==========================================
+  @Delete(':id')
+  deleteRoomType(@Param('id') id: string) {
+    return this.roomTypesService.deleteRoomType(id);
   }
 }

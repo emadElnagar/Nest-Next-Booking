@@ -104,4 +104,30 @@ export class RoomTypesService {
 
     return updatedRoom;
   }
+
+  // ==========================================
+  // Delete a room type
+  // ==========================================
+  async deleteRoomType(id: string): Promise<void> {
+    const roomType = await this.roomTypeRepo.findOne({
+      where: { id },
+    });
+
+    if (!roomType) {
+      throw new NotFoundException('Room Type not found');
+    }
+
+    // Delete associated images from the filesystem
+    await Promise.all(
+      (roomType.images ?? []).map((image) =>
+        unlink(join(process.cwd(), 'uploads', 'rooms', basename(image))).catch(
+          (error) => {
+            if (error.code !== 'ENOENT') throw error;
+          },
+        ),
+      ),
+    );
+
+    await this.roomTypeRepo.remove(roomType);
+  }
 }
