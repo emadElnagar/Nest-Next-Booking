@@ -17,8 +17,6 @@ import { CreateRoomTypeDto } from './dtos/new-room-type.dto';
 import { UploadImages } from '../common/decorators/upload-images.decorator';
 import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { PermissionsGuard } from '../authorization/guards/permissions.guard';
-import { Permissions } from '../authorization/decorators/permissions.decorator';
-import { Permission } from '../authorization/enums/permission.enum';
 
 @Controller('room-types')
 export class RoomTypesController {
