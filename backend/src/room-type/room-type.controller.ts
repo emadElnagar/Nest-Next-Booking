@@ -69,6 +69,7 @@ export class RoomTypesController {
   // ==========================================
   @Patch(':id')
   @UploadImages('rooms', 6)
+  @UseGuards(AccessTokenGuard, PermissionsGuard)
   updateRoomType(
     @Param('id') id: string,
     @Body() updateRoomTypeDto: CreateRoomTypeDto,
@@ -85,6 +86,7 @@ export class RoomTypesController {
   // Delete room type
   // ==========================================
   @Delete(':id')
+  @UseGuards(AccessTokenGuard, PermissionsGuard)
   deleteRoomType(@Param('id') id: string) {
     return this.roomTypesService.deleteRoomType(id);
   }
