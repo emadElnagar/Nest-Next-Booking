@@ -1,0 +1,9 @@
+{
+  "Navbar": {
+    "home": "Home",
+    "rooms": "Rooms",
+    "amenities": "Amenities",
+    "gallery": "Gallery",
+    "contact": "Contact"
+  }
+}
