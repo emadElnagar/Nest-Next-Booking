@@ -22,14 +22,7 @@ import {
   useLogoutUserMutation,
 } from "@/lib/services/authApi";
 import { usersApi } from "@/lib/services/authApi";
-
-const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Rooms", href: "/rooms" },
-  { name: "Amenities", href: "/amenities" },
-  { name: "Gallery", href: "/gallery" },
-  { name: "Contact", href: "/contact" },
-];
+import { useTranslations } from "next-intl";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,11 +30,20 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const { data: currentUser } = useGetCurrentUserQuery();
   const [logoutUser, { isLoading: logoutLoading }] = useLogoutUserMutation();
+  const t = useTranslations("Navbar");
 
   const router = useRouter();
   const dispatch = useDispatch();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
+
+  // Nav links
+  const navLinks = [
+    { name: t("home"), href: "/" },
+    { name: t("rooms"), href: "/rooms" },
+    { name: t("about"), href: "/about" },
+    { name: t("contact"), href: "/contact" },
+  ];
 
   // Close dropdown & search outside click
   useEffect(() => {
